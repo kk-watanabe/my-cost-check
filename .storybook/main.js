@@ -39,7 +39,11 @@ module.exports = {
         "style-loader",
         "css-loader",
         {
-          loader: "sass-loader"
+          loader: "sass-loader",
+          options: {
+            // Prefer `dart-sass`
+            implementation: require("sass"),
+          },
         },
         {
           loader: "sass-resources-loader",

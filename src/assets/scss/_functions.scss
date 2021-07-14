@@ -1,6 +1,10 @@
 // font-size unit rem
+@function getRemFontSize($size, $base) {
+  @return ($size / $base) + rem;
+}
+
 @mixin font-size($size, $base: 16) {
-  font-size: $size / $base + rem;
+  font-size: getRemFontSize($size, $base);
 }
 
 //////////////////
