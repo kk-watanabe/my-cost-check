@@ -1,0 +1,9 @@
+// font-size unit rem
+@mixin font-size($size, $base: 16) {
+  font-size: $size / $base + rem;
+}
+
+//////////////////
+// example:
+// @include font-size(20);
+//////////////////

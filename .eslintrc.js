@@ -21,6 +21,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ["**/src/stories/**/*.{j,t}s?(x)"],
+      rules: {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+      },
+    },
+    {
       files: [
         "**/__tests__/*.{j,t}s?(x)",
         "**/tests/unit/**/*.spec.{j,t}s?(x)",

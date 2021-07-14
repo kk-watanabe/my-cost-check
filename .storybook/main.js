@@ -9,6 +9,16 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials"
   ],
+  typescript: {
+    check: false,
+    checkOptions: {},
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter: prop =>
+        prop.parent ? !/node_modules/.test(prop.parent.fileName) : true
+    }
+  },
   webpackFinal: async config => {
     config.resolve.alias = {
       "vue": "vue/dist/vue.esm-bundler.js",
@@ -31,17 +41,14 @@ module.exports = {
         {
           loader: "sass-loader"
         },
-      ]
-    });
-
-    config.module.rules.push({
-      test: /\.tsx?$/,
-      use: [
         {
-          loader: require.resolve("ts-loader"),
+          loader: "sass-resources-loader",
           options: {
-            transpileOnly: true,
-            configFile: path.resolve(__dirname, "./tsconfig.json")
+            resources: [
+              path.resolve(__dirname, "../src/assets/scss/_color.scss"),
+              path.resolve(__dirname, "../src/assets/scss/_size.scss"),
+              path.resolve(__dirname, "../src/assets/scss/_functions.scss")
+            ]
           }
         }
       ]
