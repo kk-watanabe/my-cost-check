@@ -13,7 +13,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .panel {
   padding: 30px;
-  border-radius: $borderRadiusLarge;
+  border-radius: $borderRadius;
   background-color: $isColorWhite;
   box-shadow: 1px 1px 5px rgba($isColorBase5, 0.5);
   line-height: 1;
