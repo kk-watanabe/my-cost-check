@@ -41,7 +41,6 @@ export default defineComponent({
   },
   emits: ["change"],
   setup(props, context) {
-    console.log(props.options);
     const state = reactive({
       value: props.modelValue,
     });
