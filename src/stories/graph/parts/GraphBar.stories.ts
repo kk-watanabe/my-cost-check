@@ -1,4 +1,4 @@
-import { GraphBarProps } from "@/types/graph/parts/GraphBar";
+import { GraphBarProps } from "@/types/Graphs";
 import GraphBar from "@/components/graph/parts/GraphBar.vue";
 
 const INDEX_OPTION = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -13,6 +13,8 @@ export default {
     y: { control: "number" },
     index: { type: "select", options: INDEX_OPTION },
     onClick: {},
+    onMouseEnter: {},
+    onMouseLeave: {},
   },
 };
 
@@ -23,7 +25,7 @@ export const Default = (args: GraphBarProps) => ({
   },
   template: `
     <svg width="100%" height="160px">
-      <GraphBar v-bind="args" />
+      <GraphBar v-bind="args" @mouseenter="args.onMouseEnter" @mouseleave="args.onMouseLeave" />
     </svg>
   `,
 });

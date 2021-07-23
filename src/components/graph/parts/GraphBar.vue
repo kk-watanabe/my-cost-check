@@ -7,6 +7,8 @@
     :x="x"
     :y="y"
     @click="onClick"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
   />
 </template>
 
@@ -37,14 +39,24 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["click"],
+  emits: ["click", "mouseenter", "mouseleave"],
   setup(_, context) {
     const onClick = () => {
       context.emit("click");
     };
 
+    const onMouseEnter = () => {
+      context.emit("mouseenter");
+    };
+
+    const onMouseLeave = () => {
+      context.emit("mouseleave");
+    };
+
     return {
       onClick,
+      onMouseEnter,
+      onMouseLeave,
     };
   },
 });
