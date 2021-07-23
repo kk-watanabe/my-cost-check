@@ -111,7 +111,9 @@ export default defineComponent({
       content: "";
     }
 
-    &-disabled {
+    &--disabled {
+      background-color: $isColorBase1;
+      color: $isColorBase6;
     }
   }
 }
