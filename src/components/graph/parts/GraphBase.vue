@@ -2,14 +2,18 @@
   <svg
     id="graphBase"
     class="graph-base"
-    :width="graphWidth"
-    :height="graphHeight"
+    :width="state.graphWidth"
+    :height="state.graphHeight"
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:svgjs="http://svgjs.com/svgjs"
   >
-    <path :d="targetLinePath" class="graph-base__target-line" />
+    <path
+      v-if="showTargetLine"
+      :d="targetLinePath"
+      class="graph-base__target-line"
+    />
 
     <g id="yAxis">
       <template v-for="(data, i) in yAxisData" :key="'yAxisText' + i">
@@ -39,12 +43,14 @@
 <script lang="ts">
 import { defineComponent, reactive, computed } from "vue";
 import {
+  GRAPH_WIDTH,
+  GRAPH_HEIGHT,
   Y_AXIS_WIDTH,
-  X_AXIS_HEIGHT,
+  GRAPH_VIEW_HEIGHT,
+  NUMBER_OF_Y_AXIS,
   FONT_SIZE,
   VIEW_MARGIN,
-  START_MARGIN,
-} from "@/types/graph/parts/GraphBase";
+} from "@/types/Graphs";
 
 export default defineComponent({
   name: "GraphBase",
@@ -53,36 +59,29 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    targetValue: {
-      type: Number,
-      required: true,
-    },
+    targetValue: Number,
   },
   setup(props) {
     const state = reactive({
+      graphWidth: GRAPH_WIDTH,
+      graphHeight: GRAPH_HEIGHT,
       yAxisWidth: Y_AXIS_WIDTH,
       fontSize: FONT_SIZE,
     });
 
-    const graphWidth = computed(() => {
-      return 640;
-    });
-
-    const graphHeight = computed(() => {
-      return 396;
-    });
-
-    const viewHeight = computed(() => {
-      return graphHeight.value - X_AXIS_HEIGHT;
-    });
-
     const getPath = (y: number): string => {
-      return `M ${state.yAxisWidth} ${y} H ${graphWidth.value}`;
+      return `M ${state.yAxisWidth} ${y} H ${state.graphWidth}`;
     };
 
+    const showTargetLine = computed(() => {
+      return props.targetValue !== undefined;
+    });
+
     const targetLinePath = computed(() => {
-      const percent = 1 - props.targetValue / props.upperLimit;
-      const value = Math.floor(viewHeight.value * percent);
+      const percent = props.targetValue
+        ? 1 - props.targetValue / props.upperLimit
+        : 0;
+      const value = Math.floor(GRAPH_VIEW_HEIGHT * percent);
       const margin = getYAxisY(yAxisData.value.length - 1);
 
       return getPath(value + margin);
@@ -91,7 +90,7 @@ export default defineComponent({
     const yAxisData = computed(() => {
       const result = [0];
 
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < NUMBER_OF_Y_AXIS; i++) {
         const index = i + 1;
         const value = Math.floor(0.1 * index * 10) / 10;
 
@@ -102,13 +101,13 @@ export default defineComponent({
     });
 
     const baselinePath = computed(() => {
-      return getPath(viewHeight.value);
+      return getPath(GRAPH_VIEW_HEIGHT);
     });
 
     const getYAxisY = (index: number): number => {
-      const margin = viewHeight.value / yAxisData.value.length;
+      const margin = GRAPH_VIEW_HEIGHT / yAxisData.value.length;
 
-      return Math.floor(viewHeight.value - margin * index);
+      return Math.floor(GRAPH_VIEW_HEIGHT - margin * index);
     };
 
     const yAxisTextY = (index: number): number => {
@@ -127,8 +126,7 @@ export default defineComponent({
 
     return {
       state,
-      graphWidth,
-      graphHeight,
+      showTargetLine,
       targetLinePath,
       yAxisData,
       baselinePath,
@@ -143,7 +141,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .graph-base {
   &__target-line {
-    stroke: $isSiteColor8;
+    stroke: $isSiteColor4;
     stroke-width: 1;
   }
 
@@ -152,7 +150,7 @@ export default defineComponent({
   }
 
   &__y-axis-line {
-    stroke: $isColorBase4;
+    stroke: $isColorBase2;
     stroke-width: 1;
   }
 
@@ -160,12 +158,8 @@ export default defineComponent({
     text-anchor: end;
   }
 
-  &__x-axis-text {
-    text-anchor: end;
-  }
-
   &__baseline {
-    stroke: $isColorBase7;
+    stroke: $isColorBase6;
     stroke-width: 1;
   }
 }

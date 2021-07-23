@@ -1,4 +1,4 @@
-import { GraphBaseProps } from "@/types/graph/parts/GraphBase";
+import { GraphBaseProps } from "@/types/Graphs";
 import GraphBase from "@/components/graph/parts/GraphBase.vue";
 
 export default {
