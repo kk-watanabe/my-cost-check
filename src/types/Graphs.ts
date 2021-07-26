@@ -7,6 +7,12 @@ export interface BarGraphsProps {
   xAxisData: XAxisData[];
 }
 
+export interface GraphTooltipProps {
+  count: number;
+  x: number;
+  y: number;
+}
+
 export interface GraphBaseProps {
   upperLimit: number;
   targetValue: number;
