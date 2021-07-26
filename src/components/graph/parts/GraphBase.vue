@@ -50,7 +50,7 @@ import {
   NUMBER_OF_Y_AXIS,
   FONT_SIZE,
   VIEW_MARGIN,
-} from "@/types/Graphs";
+} from "@/utils/graph-util";
 
 export default defineComponent({
   name: "GraphBase",

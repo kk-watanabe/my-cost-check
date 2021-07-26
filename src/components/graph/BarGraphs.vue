@@ -59,6 +59,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, PropType } from "vue";
+import { XAxisData } from "@/types/Graphs";
 import {
   GRAPH_VIEW_WIDTH,
   GRAPH_VIEW_HEIGHT,
@@ -67,8 +68,7 @@ import {
   BAR_HEIGHT,
   VIEW_MARGIN,
   FONT_SIZE,
-  XAxisData,
-} from "@/types/Graphs";
+} from "@/utils/graph-util";
 import GraphBase from "@/components/graph/parts/GraphBase.vue";
 import GraphBar from "@/components/graph/parts/GraphBar.vue";
 
