@@ -35,24 +35,12 @@
     </g>
 
     <transition name="fade">
-      <g v-if="state.showTooltip" id="tooltip" :transform="tooltipTransform">
-        <rect
-          class="bar-graphs__tooltip-bg"
-          ry="3"
-          rx="3"
-          :width="state.tooltipWidtth"
-          :height="state.tooltipHeight"
-        />
-
-        <text
-          class="bar-graphs__tooltip"
-          :dx="state.tooltipTextX"
-          :dy="state.tooltipTextY"
-          :font-size="state.fontSize"
-        >
-          {{ state.tooltipLabel }}
-        </text>
-      </g>
+      <GraphTooltip
+        v-if="state.showTooltip"
+        :count="state.tooltipCount"
+        :x="state.tooltipX"
+        :y="state.tooltipY"
+      />
     </transition>
   </GraphBase>
 </template>
@@ -61,22 +49,28 @@
 import { defineComponent, reactive, computed, PropType } from "vue";
 import { XAxisData } from "@/types/Graphs";
 import {
-  GRAPH_VIEW_WIDTH,
   GRAPH_VIEW_HEIGHT,
-  X_START_POSITON,
   NUMBER_OF_Y_AXIS,
   BAR_HEIGHT,
   VIEW_MARGIN,
   FONT_SIZE,
+  getUpperLimit,
+  getXMargin,
+  getXAxisX,
+  getXAxisTextX,
+  getXAxisTexts,
+  getTspanY,
 } from "@/utils/graph-util";
 import GraphBase from "@/components/graph/parts/GraphBase.vue";
 import GraphBar from "@/components/graph/parts/GraphBar.vue";
+import GraphTooltip from "@/components/graph/parts/GraphTooltip.vue";
 
 export default defineComponent({
   name: "BarGraphs",
   components: {
     GraphBase,
     GraphBar,
+    GraphTooltip,
   },
   props: {
     xAxisData: {
@@ -91,22 +85,15 @@ export default defineComponent({
       textY: GRAPH_VIEW_HEIGHT + VIEW_MARGIN + FONT_SIZE,
       fontSize: FONT_SIZE,
       showTooltip: false,
-      tooltipLabel: "",
+      tooltipCount: 0,
       tooltipY: 0,
       tooltipX: 0,
-      tooltipWidtth: 0,
-      tooltipHeight: FONT_SIZE + 8,
-      tooltipTextY: FONT_SIZE + 2,
-      tooltipTextX: 0,
     });
 
     const upperLimit = computed(() => {
       const counts = props.xAxisData.map((data) => data.count);
-      const max = Math.max(...counts);
-      const result = (n: number) =>
-        ((m) => m * Math.round(n / m))(10 ** (`${n}`.length - 1));
 
-      return result(max);
+      return getUpperLimit(counts);
     });
 
     const yStartPotion = computed(() => {
@@ -122,11 +109,9 @@ export default defineComponent({
     };
 
     const x = (index: number): number => {
-      const margin =
-        GRAPH_VIEW_WIDTH / props.xAxisData.length - state.barWidth / 2;
-      const result = X_START_POSITON + margin * index;
+      const margin = getXMargin(props.xAxisData.length, state.barWidth);
 
-      return result;
+      return getXAxisX(margin, index);
     };
 
     const y = (count: number): number => {
@@ -134,46 +119,32 @@ export default defineComponent({
     };
 
     const textX = (index: number): number => {
-      return x(index) + state.barWidth / 2;
+      const xAxisX = x(index);
+
+      return getXAxisTextX(xAxisX, state.barWidth);
     };
 
     const viewLabels = (label: string): string[] => {
-      const labels = label.match(/(.{1,3})$|.{3}/g);
-
-      if (labels === null) {
-        return [label];
-      }
-
-      return labels;
+      return getXAxisTexts(label);
     };
 
     const tspanY = (index: number): number => {
-      return state.textY + state.fontSize * index;
+      return getTspanY(state.textY, index);
     };
 
     const onMouseEnter = (count: number, index: number) => {
       state.showTooltip = true;
-      state.tooltipLabel = `￥${count.toLocaleString()}`;
+      state.tooltipCount = count;
       state.tooltipY = y(count) - 10;
       state.tooltipX = textX(index);
-      state.tooltipWidtth = (state.tooltipLabel.length - 1) * state.fontSize;
-      state.tooltipTextX = state.tooltipWidtth / 2;
     };
 
     const onMouseLeave = () => {
       state.showTooltip = false;
-      state.tooltipLabel = "";
+      state.tooltipCount = 0;
       state.tooltipY = 0;
       state.tooltipX = 0;
-      state.tooltipWidtth = 0;
-      state.tooltipTextX = 0;
     };
-
-    const tooltipTransform = computed(() => {
-      const x = state.tooltipX - state.tooltipWidtth / 2;
-
-      return `translate(${x}, ${state.tooltipY})`;
-    });
 
     return {
       state,
@@ -186,7 +157,6 @@ export default defineComponent({
       tspanY,
       onMouseEnter,
       onMouseLeave,
-      tooltipTransform,
     };
   },
 });

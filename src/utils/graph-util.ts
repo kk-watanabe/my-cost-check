@@ -17,3 +17,41 @@ export const FONT_SIZE = 12;
 export const VIEW_MARGIN = 8;
 
 export const TOOLTIP_MIN_WIDTH = 40;
+
+export function getUpperLimit(counts: number[]): number {
+  const max = Math.max(...counts);
+  const result = (n: number) =>
+    ((m) => m * Math.round(n / m))(10 ** (`${n}`.length - 1));
+
+  return result(max);
+}
+
+export function getXMargin(numberOfData: number, targetWidth: number): number {
+  return GRAPH_VIEW_WIDTH / numberOfData - targetWidth / 2;
+}
+
+export function getXAxisX(margin: number, index: number): number {
+  return X_START_POSITON + margin * index;
+}
+
+export function getXAxisTextX(xAxisX: number, targetWidth: number): number {
+  return xAxisX + targetWidth / 2;
+}
+
+export function getXAxisTexts(text: string): string[] {
+  const texts = text.match(/(.{1,3})$|.{3}/g);
+
+  if (texts === null) {
+    return [text];
+  }
+
+  return texts;
+}
+
+export function getTspanY(
+  y: number,
+  index: number,
+  fontSize: number = FONT_SIZE
+): number {
+  return y + fontSize * index;
+}
