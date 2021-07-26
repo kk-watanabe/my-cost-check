@@ -15,3 +15,5 @@ export const BAR_HEIGHT = 10;
 
 export const FONT_SIZE = 12;
 export const VIEW_MARGIN = 8;
+
+export const TOOLTIP_MIN_WIDTH = 40;

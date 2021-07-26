@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed } from "vue";
-import { FONT_SIZE } from "@/utils/graph-util";
+import { FONT_SIZE, TOOLTIP_MIN_WIDTH } from "@/utils/graph-util";
 
 export default defineComponent({
   name: "GraphTooltip",
@@ -51,7 +51,9 @@ export default defineComponent({
     });
 
     const width = computed(() => {
-      return (text.value.length - 1) * state.fontSize;
+      const digits = text.value.length;
+
+      return digits > 3 ? (digits - 1) * state.fontSize : TOOLTIP_MIN_WIDTH;
     });
 
     const textX = computed(() => {
