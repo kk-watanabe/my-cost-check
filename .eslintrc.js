@@ -46,4 +46,12 @@ module.exports = {
       },
     },
   },
+  overrides: [
+    {
+      files: ["**/*.stories.*"],
+      rules: {
+        "react/jsx-props-no-spreading": "off",
+      },
+    },
+  ],
 };
