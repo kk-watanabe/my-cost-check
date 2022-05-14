@@ -38,12 +38,8 @@ module.exports = {
     "react-hooks/exhaustive-deps": ["error"],
   },
   settings: {
-    react: {
-      version: "detect",
-    },
     "import/ignore": "node_modules",
     "import/resolver": {
-      typescript: { project: "./" },
       node: {
         paths: ["src"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
