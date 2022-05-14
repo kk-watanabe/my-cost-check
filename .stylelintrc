@@ -3,8 +3,15 @@
   "rules": {},
   "overrides": [
     {
-      "files": ["**/*.jsx", "**/*.tsx"],
-      "rules": {},
+      "files": ["**/*.jsx", "**/*.tsx", "**/*.css"],
+      "rules": {
+        "at-rule-no-unknown": [
+          true,
+          {
+            "ignoreAtRules": ["tailwind"]
+          }
+        ]
+      },
       "customSyntax": "@stylelint/postcss-css-in-js"
     }
   ]

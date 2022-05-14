@@ -16,9 +16,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src", ".eslintrc.js", "vite.config.ts"],
