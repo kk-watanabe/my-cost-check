@@ -1,38 +1,56 @@
 module.exports = {
-  root: true,
   env: {
+    browser: true,
+    es2021: true,
     node: true,
   },
   extends: [
-    "plugin:vue/vue3-essential",
     "eslint:recommended",
-    "@vue/typescript/recommended",
-    "@vue/prettier",
-    "@vue/prettier/@typescript-eslint",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
   ],
+  ignorePatterns: ["node_modules/*"],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
+  plugins: ["react", "@typescript-eslint"],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": ["error", { extensions: [".jsx", ".tsx"] }],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "react/react-in-jsx-scope": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": ["error"],
+    "@typescript-eslint/no-explicit-any": ["error"],
+    "react-hooks/exhaustive-deps": ["error"],
+  },
+  settings: {
+    "import/ignore": "node_modules",
+    "import/resolver": {
+      node: {
+        paths: ["src"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
   overrides: [
     {
-      files: ["**/src/stories/**/*.{j,t}s?(x)"],
+      files: ["**/*.stories.*"],
       rules: {
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-      },
-    },
-    {
-      files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)",
-      ],
-      env: {
-        jest: true,
+        "react/jsx-props-no-spreading": "off",
       },
     },
   ],
