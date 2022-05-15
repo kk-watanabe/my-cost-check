@@ -24,7 +24,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["import", "react", "@typescript-eslint"],
   rules: {
     "react/jsx-filename-extension": ["error", { extensions: [".jsx", ".tsx"] }],
     "no-use-before-define": "off",
@@ -39,7 +39,14 @@ module.exports = {
   },
   settings: {
     "import/ignore": "node_modules",
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
     "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+        project: "./src",
+      },
       node: {
         paths: ["src"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],

@@ -1,40 +1,13 @@
-import { useState } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { VFC } from "react";
+import { Router, Outlet } from "@tanstack/react-location";
+import { routes, location } from "./Router";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App: VFC = () => {
   return (
-    <div className="app">
-      <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
-        <p className="bg-red-600 text-blue-300">Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a className="app-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="app-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <Router routes={routes} location={location}>
+      <Outlet />
+    </Router>
   );
-}
+};
 
 export default App;
