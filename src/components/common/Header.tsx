@@ -1,30 +1,43 @@
 import React from "react";
+// import tw from "tailwind-styled-components";
+
+import styled from "styled-components";
 import tw from "twin.macro";
 
-const HeaderContainer = tw.header`
-  h-12
-  px-4
-  bg-white
-  flex
-  items-center
-  justify-between
+const HeaderContainer = styled.header`
+  ${tw`
+    h-12
+    px-4
+    bg-white
+    flex
+    items-center
+    justify-between
+  `}
 `;
 
-const LogoDiv = tw.div`
-text-blue-500
-  text-2xl
+const LogoDiv = styled.div.attrs({
+  className: "text-sky-500",
+})`
+  ${tw`
+    text-2xl
+  `}
 `;
 
-const LogoTop = tw.h1`
-text-blue-500
-  text-2xl
+const LogoTop = styled.h1.attrs({
+  className: "text-sky-500",
+})`
+  ${tw`
+    text-2xl
+  `}
 `;
 
-const Ancher = tw.a`
-  block
-  opacity-100
-  transition-opacity
-  hover:opacity-70
+const Ancher = styled.a`
+  ${tw`
+    block
+    opacity-100
+    transition-opacity
+    hover:opacity-70
+  `}
 `;
 
 export interface HeaderProps {

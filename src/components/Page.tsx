@@ -1,32 +1,11 @@
 import React from "react";
-import tw from "tailwind-styled-components";
-import { Header } from "./common/Header";
+import Header from "@/components/common/Header";
 import "./page.css";
 
-type User = {
-  name: string;
-};
-
-const Container = tw.div`
-    flex
-    items-center
-    justify-center
-    flex-col
-    w-full
-    bg-indigo-600
-`;
-
 export const Page: React.VFC = () => {
-  const [user, setUser] = React.useState<User>();
-
   return (
     <article>
-      <Header
-        user={user}
-        onLogin={() => setUser({ name: "Jane Doe" })}
-        onLogout={() => setUser(undefined)}
-        onCreateAccount={() => setUser({ name: "Jane Doe" })}
-      />
+      <Header />
 
       <section>
         <h2>Pages in Storybook</h2>
@@ -75,9 +54,9 @@ export const Page: React.VFC = () => {
           Viewports addon in the toolbar
         </div>
 
-        <Container>
+        <div>
           <div>Sample text</div>
-        </Container>
+        </div>
       </section>
     </article>
   );

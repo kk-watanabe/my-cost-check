@@ -1,19 +1,9 @@
 import { VFC, useCallback, useEffect } from "react";
-import tw from "tailwind-styled-components";
 import { useFirebaseContext } from "@/providers/FirebaseProvider";
 import { useUserContext } from "@/providers/UserProvider";
 import { buildUserInfo, buildCosts } from "@/utils/type-utils";
 
 import Button from "@/components/elements/Button";
-
-const Container = tw.div`
-    flex
-    items-center
-    justify-center
-    flex-col
-    w-full
-    bg-indigo-600
-`;
 
 const Home: VFC = () => {
   const { getQuerySnapshot, getDocumentSnapshot } = useFirebaseContext();
@@ -41,10 +31,10 @@ const Home: VFC = () => {
   }, [fetch]);
 
   return (
-    <Container>
+    <div>
       <div>Home</div>
       <Button label="Button" />
-    </Container>
+    </div>
   );
 };
 
