@@ -8,7 +8,7 @@ export default {
   title: "components/elements/Button",
   component: Button,
   argTypes: {
-    type: {
+    color: {
       options: ["primary", "secondary", "error", "warning"],
       control: { type: "radio" },
     },
@@ -27,7 +27,7 @@ export const Default = Template.bind({});
 
 Default.args = {
   label: "Button",
-  type: "primary",
+  color: "primary",
   size: "medium",
   isDisabled: false,
   fullWidth: false,

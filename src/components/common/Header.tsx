@@ -1,5 +1,5 @@
 import React from "react";
-import tw from "tailwind-styled-components";
+import tw from "twin.macro";
 
 const HeaderContainer = tw.header`
   h-12
@@ -11,12 +11,12 @@ const HeaderContainer = tw.header`
 `;
 
 const LogoDiv = tw.div`
-text-sky-500
+text-blue-500
   text-2xl
 `;
 
 const LogoTop = tw.h1`
-text-sky-500
+text-blue-500
   text-2xl
 `;
 

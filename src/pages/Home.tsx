@@ -4,6 +4,8 @@ import { useFirebaseContext } from "@/providers/FirebaseProvider";
 import { useUserContext } from "@/providers/UserProvider";
 import { buildUserInfo, buildCosts } from "@/utils/type-utils";
 
+import Button from "@/components/elements/Button";
+
 const Container = tw.div`
     flex
     items-center
@@ -41,6 +43,7 @@ const Home: VFC = () => {
   return (
     <Container>
       <div>Home</div>
+      <Button label="Button" />
     </Container>
   );
 };
