@@ -16,6 +16,7 @@ const HeaderContainer = styled.header`
 `;
 
 const LogoDiv = styled.div.attrs({
+  // TODO: text-sky-500 が読み込まれないため、classNameで追加している
   className: "text-sky-500",
 })`
   ${tw`
@@ -24,6 +25,7 @@ const LogoDiv = styled.div.attrs({
 `;
 
 const LogoTop = styled.h1.attrs({
+  // TODO: text-sky-500 が読み込まれないため、classNameで追加している
   className: "text-sky-500",
 })`
   ${tw`
