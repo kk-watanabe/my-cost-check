@@ -87,7 +87,7 @@ const ButtonBase = tw.button`
   }}
 `;
 
-export const Button = ({
+const Button = ({
   type = "primary",
   size = "medium",
   isDisabled = false,
@@ -102,3 +102,5 @@ export const Button = ({
     </ButtonBase>
   );
 };
+
+export default Button;

@@ -1,6 +1,6 @@
 import React from "react";
 import tw from "tailwind-styled-components";
-import { Header } from "./Header";
+import { Header } from "./common/Header";
 import "./page.css";
 
 type User = {
