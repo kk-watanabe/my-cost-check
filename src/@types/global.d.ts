@@ -20,3 +20,7 @@ type Cost = {
   name: string;
   dates: CostDate[];
 };
+
+type ClassProps = {
+  className: string;
+};
