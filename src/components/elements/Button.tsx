@@ -80,13 +80,9 @@ const ButtonBase = styled.button.attrs((props: ButtonProps) => {
   }
 
   return {
-    color,
-    size,
-    isDisabled,
-    fullWidth,
     className: result.join(" "),
   };
-})`
+})<ClassProps>`
   ${tw`
     flex
     items-center
@@ -96,20 +92,10 @@ const ButtonBase = styled.button.attrs((props: ButtonProps) => {
   `}
 `;
 
-const Button = ({
-  color = "primary",
-  size = "medium",
-  isDisabled = false,
-  fullWidth = false,
-  ...props
-}: ButtonProps) => {
+const Button = (props: ButtonProps) => {
   const { label } = props;
 
-  return (
-    <ButtonBase color={color} size={size} isDisabled={isDisabled} fullWidth={fullWidth} {...props}>
-      {label}
-    </ButtonBase>
-  );
+  return <ButtonBase {...props}>{label}</ButtonBase>;
 };
 
 export default Button;
