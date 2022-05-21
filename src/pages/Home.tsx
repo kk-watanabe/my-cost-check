@@ -3,6 +3,8 @@ import { useFirebaseContext } from "@/providers/FirebaseProvider";
 import { useUserContext } from "@/providers/UserProvider";
 import { buildUserInfo, buildCosts } from "@/utils/type-utils";
 
+import Button from "@/components/elements/Button";
+
 const Home: VFC = () => {
   const { getQuerySnapshot, getDocumentSnapshot } = useFirebaseContext();
   const { uid } = useUserContext();
@@ -28,7 +30,12 @@ const Home: VFC = () => {
     fetch();
   }, [fetch]);
 
-  return <div>Home</div>;
+  return (
+    <div>
+      <div>Home</div>
+      <Button label="Button" />
+    </div>
+  );
 };
 
 export default Home;

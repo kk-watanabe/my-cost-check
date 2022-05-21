@@ -1,0 +1,127 @@
+import React from "react";
+
+import styled from "styled-components";
+import tw from "twin.macro";
+
+type TableHeadColor = "red" | "orange" | "yellow" | "green" | "blue" | "purple";
+
+type TableCell = number | string;
+
+export interface TableProps {
+  headColor?: TableHeadColor;
+  headData: string[];
+  bodyData: TableCell[][];
+}
+
+const TableOverContainer = styled.div`
+  ${tw`
+    w-full
+    overflow-y-hidden
+    overflow-x-auto
+  `}
+`;
+
+const TableBase = styled.table`
+  ${tw`
+    bg-white
+    table-auto
+    whitespace-nowrap
+  `}
+`;
+
+const HeadTh = styled.th.attrs((props: TableProps) => {
+  const { headColor } = props;
+  const result: string[] = ["border-y", "border-y-gray-200"];
+
+  // color
+  switch (headColor) {
+    case "red":
+      result.push("bg-red-100");
+      break;
+    case "orange":
+      result.push("bg-orange-100");
+      break;
+    case "yellow":
+      result.push("bg-yellow-100");
+      break;
+    case "green":
+      result.push("bg-green-100");
+      break;
+    case "blue":
+      result.push("bg-sky-100");
+      break;
+    case "purple":
+      result.push("bg-purple-100");
+      break;
+    default:
+      result.push("bg-sky-100");
+      break;
+  }
+
+  return {
+    className: result.join(" "),
+  };
+})`
+  ${tw`
+      p-4
+      text-sm
+      text-center
+  `}
+`;
+
+const BodyTh = styled.th`
+  ${tw`
+      p-4
+      text-sm
+      border-b
+      border-b-gray-200
+      text-left
+  `}
+`;
+
+const Td = styled.td`
+  ${tw`
+      p-4
+      text-sm
+      border-b
+      border-b-gray-200
+      text-right
+  `}
+`;
+
+const Table = (props: TableProps) => {
+  const { headData, bodyData } = props;
+
+  return (
+    <TableOverContainer>
+      <TableBase>
+        <thead>
+          <tr>
+            {headData.map((data) => (
+              <HeadTh {...props} key={data}>
+                {data}
+              </HeadTh>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {bodyData.map((value, index) => (
+            <tr key={index}>
+              {value.map((data, i) => (
+                <>
+                  {i === 0 ? (
+                    <BodyTh key={`row${index}-cell${i}`}>{data}</BodyTh>
+                  ) : (
+                    <Td key={`row${index}-cell${i}`}>{data}</Td>
+                  )}
+                </>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </TableBase>
+    </TableOverContainer>
+  );
+};
+
+export default Table;
