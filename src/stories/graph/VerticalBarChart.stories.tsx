@@ -6,6 +6,9 @@ import VerticalBarChart from "@/components/graph/VerticalBarChart";
 export default {
   title: "components/graph/VerticalBarChart",
   component: VerticalBarChart,
+  argTypes: {
+    onClick: { action: "clicked" },
+  },
 } as ComponentMeta<typeof VerticalBarChart>;
 
 const Template: ComponentStory<typeof VerticalBarChart> = (args) => <VerticalBarChart {...args} />;
@@ -22,6 +25,8 @@ const datasets = [
 ];
 
 Default.args = {
-  labels,
-  datasets,
+  data: {
+    labels,
+    datasets,
+  },
 };

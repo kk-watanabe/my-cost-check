@@ -36,6 +36,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": ["error"],
     "@typescript-eslint/no-explicit-any": ["error"],
     "react-hooks/exhaustive-deps": ["error"],
+    "@typescript-eslint/no-var-requires": "off",
   },
   settings: {
     "import/ignore": "node_modules",

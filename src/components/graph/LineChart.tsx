@@ -6,20 +6,40 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
   Legend,
+  ChartEvent,
+  ActiveElement,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-const options = {
-  responsive: true,
+type LineChartDataProps = {
+  label: string;
+  data: number[];
+  backgroundColor: string;
+  borderColor: string;
+};
+
+type LineChartProps = {
+  data: {
+    labels: string[];
+    datasets: LineChartDataProps[];
+  };
+  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS) => void;
 };
 
 const LineChart = (props: LineChartProps) => {
-  return <Line data={props} options={options} />;
+  return (
+    <Line
+      data={props.data}
+      options={{
+        responsive: true,
+        onClick: (event, elements, chart) => props.onClick(event, elements, chart),
+      }}
+    />
+  );
 };
 
 export default LineChart;

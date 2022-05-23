@@ -1,17 +1,17 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import LineChart from "@/components/graph/LineChart";
+import StackedBarChart from "@/components/graph/StackedBarChart";
 
 export default {
-  title: "components/graph/LineChart",
-  component: LineChart,
+  title: "components/graph/StackedBarChart",
+  component: StackedBarChart,
   argTypes: {
     onClick: { action: "clicked" },
   },
-} as ComponentMeta<typeof LineChart>;
+} as ComponentMeta<typeof StackedBarChart>;
 
-const Template: ComponentStory<typeof LineChart> = (args) => <LineChart {...args} />;
+const Template: ComponentStory<typeof StackedBarChart> = (args) => <StackedBarChart {...args} />;
 
 export const Default = Template.bind({});
 
@@ -25,7 +25,13 @@ const datasets = [
   },
   {
     label: "○○カードB",
-    data: [2300, 3300, 1000, 800, 5700, 1400, 5900],
+    data: [10000, 13300, 4000, 6300, 4700, 9000, 12300],
+    backgroundColor: "rgba(75, 192, 192, 0.5)",
+    borderColor: "rgb(75, 192, 192)",
+  },
+  {
+    label: "○○カードC",
+    data: [1500, 1300, 3000, 3300, 2700, 4500, 6300],
     backgroundColor: "rgba(53, 162, 235, 0.5)",
     borderColor: "rgb(53, 162, 235)",
   },

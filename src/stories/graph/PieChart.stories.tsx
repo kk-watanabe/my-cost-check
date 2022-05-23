@@ -6,6 +6,9 @@ import PieChart from "@/components/graph/PieChart";
 export default {
   title: "components/graph/PieChart",
   component: PieChart,
+  argTypes: {
+    onClick: { action: "clicked" },
+  },
 } as ComponentMeta<typeof PieChart>;
 
 const Template: ComponentStory<typeof PieChart> = (args) => <PieChart {...args} />;
@@ -38,6 +41,8 @@ const datasets = [
 ];
 
 Default.args = {
-  labels,
-  datasets,
+  data: {
+    labels,
+    datasets,
+  },
 };
