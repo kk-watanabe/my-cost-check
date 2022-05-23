@@ -18,7 +18,7 @@ type StackedBarChartProps = {
     labels: string[];
     datasets: StackedBarChartDataProps[];
   };
-  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS) => void;
+  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: number) => void;
 };
 
 const StackedBarChart = (props: StackedBarChartProps) => {
@@ -35,7 +35,14 @@ const StackedBarChart = (props: StackedBarChartProps) => {
             stacked: true,
           },
         },
-        onClick: (event, elements, chart) => props.onClick(event, elements, chart),
+        onClick: (event, elements, chart) => {
+          if (elements.length > 0) {
+            const { datasetIndex, index } = elements[0];
+            const data = props.data.datasets[datasetIndex].data[index];
+
+            props.onClick(event, elements, chart, data);
+          }
+        },
       }}
     />
   );

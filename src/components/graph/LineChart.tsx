@@ -27,7 +27,7 @@ type LineChartProps = {
     labels: string[];
     datasets: LineChartDataProps[];
   };
-  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS) => void;
+  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: number) => void;
 };
 
 const LineChart = (props: LineChartProps) => {
@@ -36,7 +36,13 @@ const LineChart = (props: LineChartProps) => {
       data={props.data}
       options={{
         responsive: true,
-        onClick: (event, elements, chart) => props.onClick(event, elements, chart),
+        onClick: (event, elements, chart) => {
+          if (elements.length > 0) {
+            const { datasetIndex, index } = elements[0];
+            const data = props.data.datasets[datasetIndex].data[index];
+            props.onClick(event, elements, chart, data);
+          }
+        },
       }}
     />
   );
