@@ -25,15 +25,27 @@ type ClassProps = {
   className: string;
 };
 
-type ChartDataProps = {
+type VerticalBarChartDataProps = {
   label: string;
   data: number[];
   backgroundColor: string | string[];
-  borderColor?: string[];
+  borderColor: string | string[];
   borderWidth?: number;
 };
 
-type ChartProps = {
+type VerticalBarChartProps = {
   labels: string[];
-  datasets: ChartDataProps[];
+  datasets: VerticalBarChartDataProps[];
+};
+
+type LineChartDataProps = {
+  label: string;
+  data: number[];
+  backgroundColor: string;
+  borderColor: string;
+};
+
+type LineChartProps = {
+  labels: string[];
+  datasets: LineChartDataProps[];
 };

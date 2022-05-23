@@ -8,7 +8,7 @@ const options = {
   responsive: true,
 };
 
-const VerticalBarChart = (props: ChartProps) => {
+const VerticalBarChart = (props: VerticalBarChartProps) => {
   return <Bar data={props} options={options} />;
 };
 
