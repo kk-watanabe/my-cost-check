@@ -6,7 +6,13 @@ export default defineConfig({
   server: {
     open: true,
   },
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: ["babel-plugin-macros", "babel-plugin-styled-components"],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       "@/": `${__dirname}/src/`,

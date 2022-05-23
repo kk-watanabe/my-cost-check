@@ -1,6 +1,6 @@
-import { VFC } from "react";
+import React from "react";
 
-const GraphDetail: VFC = () => {
+const GraphDetail = () => {
   return <div>GraphDetail</div>;
 };
 

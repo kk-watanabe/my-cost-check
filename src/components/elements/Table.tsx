@@ -89,6 +89,21 @@ const Td = styled.td`
   `}
 `;
 
+export interface TableCellProps {
+  value: TableCell;
+  index: number;
+}
+
+const TableCell = (props: TableCellProps) => {
+  const { value, index } = props;
+
+  if (index === 0) {
+    return <BodyTh>{value}</BodyTh>;
+  } else {
+    return <Td>{value}</Td>;
+  }
+};
+
 const Table = (props: TableProps) => {
   const { headData, bodyData } = props;
 
@@ -106,15 +121,9 @@ const Table = (props: TableProps) => {
         </thead>
         <tbody>
           {bodyData.map((value, index) => (
-            <tr key={index}>
-              {value.map((data, i) => (
-                <>
-                  {i === 0 ? (
-                    <BodyTh key={`row${index}-cell${i}`}>{data}</BodyTh>
-                  ) : (
-                    <Td key={`row${index}-cell${i}`}>{data}</Td>
-                  )}
-                </>
+            <tr key={`row${index}`}>
+              {value.map((data, i: number) => (
+                <TableCell value={data} index={i} key={`row${index}-cell${i}`} />
               ))}
             </tr>
           ))}

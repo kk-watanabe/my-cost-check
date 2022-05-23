@@ -1,11 +1,11 @@
-import { VFC, useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { useFirebaseContext } from "@/providers/FirebaseProvider";
 import { useUserContext } from "@/providers/UserProvider";
 import { buildUserInfo, buildCosts } from "@/utils/type-utils";
 
 import Button from "@/components/elements/Button";
 
-const Home: VFC = () => {
+const Home: FC = () => {
   const { getQuerySnapshot, getDocumentSnapshot } = useFirebaseContext();
   const { uid } = useUserContext();
   const usersCollectionName = "users";
