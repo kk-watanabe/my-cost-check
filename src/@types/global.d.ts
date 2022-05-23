@@ -49,3 +49,16 @@ type LineChartProps = {
   labels: string[];
   datasets: LineChartDataProps[];
 };
+
+type PieChartDataProps = {
+  label: string;
+  data: number[];
+  backgroundColor: string[];
+  borderColor: string[];
+  borderWidth?: number;
+};
+
+type PieChartProps = {
+  labels: string[];
+  datasets: PieChartDataProps[];
+};
