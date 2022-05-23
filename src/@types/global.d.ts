@@ -24,3 +24,16 @@ type Cost = {
 type ClassProps = {
   className: string;
 };
+
+type ChartDataProps = {
+  label: string;
+  data: number[];
+  backgroundColor: string | string[];
+  borderColor?: string[];
+  borderWidth?: number;
+};
+
+type ChartProps = {
+  labels: string[];
+  datasets: ChartDataProps[];
+};
