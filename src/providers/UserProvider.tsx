@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 
@@ -24,12 +24,9 @@ const createErrorMessage = (code: string): string => {
   }
 };
 
-const defaultEmail = import.meta.env.VITE_APP_DEFAULT_ID as string;
-const defaultPassword = import.meta.env.VITE_APP_DEFAULT_PASSWORD as string;
-
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const { auth } = useFirebaseContext();
-  const [uid, setUid] = useState("");
+  const [uid, setUid] = useState(import.meta.env.VITE_FIREBASE_DEFAULT_UID);
   const [errorMessage, setErrorMessage] = useState("");
 
   const login = useCallback(
@@ -37,6 +34,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       setErrorMessage("");
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          console.log(userCredential.user.uid);
           setUid(userCredential.user.uid);
         })
         .catch((error) => {
@@ -45,14 +43,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     },
     [auth]
   );
-
-  useEffect(() => {
-    (async () => {
-      if (uid.length === 0) {
-        await login(defaultEmail, defaultPassword);
-      }
-    })();
-  }, [login, uid]);
 
   const value = { login, uid, errorMessage };
 
