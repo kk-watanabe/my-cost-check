@@ -11,6 +11,7 @@ const HeaderContainer = styled.header`
     flex
     items-center
     justify-between
+    shadow-sm
   `}
 `;
 

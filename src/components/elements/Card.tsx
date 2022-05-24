@@ -13,6 +13,7 @@ const CardContainer = styled.div`
     bg-white
     rounded-xl
     shadow-sm
+    h-full
   `}
 `;
 

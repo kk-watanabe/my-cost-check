@@ -16,7 +16,7 @@ const LayoutContainer = styled.div`
 
 const LayoutMain = styled.main`
   ${tw`
-    p-6
+    p-12
   `}
 `;
 
