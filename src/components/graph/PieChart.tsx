@@ -18,7 +18,7 @@ type PieChartProps = {
     labels: string[];
     datasets: PieChartDataProps[];
   };
-  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: number) => void;
+  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: CostDate) => void;
 };
 
 const PieChart = (props: PieChartProps) => {
@@ -30,8 +30,10 @@ const PieChart = (props: PieChartProps) => {
         onClick: (event, elements, chart) => {
           if (elements.length > 0) {
             const { datasetIndex, index } = elements[0];
-            const data = props.data.datasets[datasetIndex].data[index];
-
+            const data: CostDate = {
+              label: props.data.labels[index],
+              amount: props.data.datasets[datasetIndex].data[index],
+            };
             props.onClick(event, elements, chart, data);
           }
         },
