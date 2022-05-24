@@ -6,7 +6,7 @@ import tw from "twin.macro";
 const HeaderContainer = styled.header`
   ${tw`
     h-12
-    px-4
+    px-6
     bg-white
     flex
     items-center

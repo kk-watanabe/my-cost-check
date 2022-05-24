@@ -5,12 +5,16 @@ import { routes, location } from "@/Router";
 import { FirebaseProvider } from "@/providers/FirebaseProvider";
 import { UserProvider } from "@/providers/UserProvider";
 
+import Layout from "@/components/layout/Layout";
+
 const App = () => {
   return (
     <FirebaseProvider>
       <UserProvider>
         <Router routes={routes} location={location}>
-          <Outlet />
+          <Layout>
+            <Outlet />
+          </Layout>
         </Router>
       </UserProvider>
     </FirebaseProvider>

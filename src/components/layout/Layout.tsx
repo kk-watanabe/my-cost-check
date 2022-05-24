@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useLocation } from "@tanstack/react-location";
+
 import styled from "styled-components";
 import tw from "twin.macro";
 
@@ -14,17 +16,18 @@ const LayoutContainer = styled.div`
 
 const LayoutMain = styled.main`
   ${tw`
-    p-4
+    p-6
   `}
 `;
 
 export interface LayoutProps {
-  isHome: boolean;
   children: React.ReactNode;
 }
 
 const Layout = (props: LayoutProps) => {
-  const { isHome, children } = props;
+  const { children } = props;
+  const location = useLocation();
+  const isHome = location.current.href === "/";
 
   return (
     <LayoutContainer>
