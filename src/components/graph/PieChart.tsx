@@ -5,7 +5,7 @@ import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-type PieChartDataProps = {
+export type PieChartDataProps = {
   label: string;
   data: number[];
   backgroundColor: string[];

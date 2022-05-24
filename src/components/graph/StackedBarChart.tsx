@@ -5,7 +5,7 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-type StackedBarChartDataProps = {
+export type StackedBarChartDataProps = {
   label: string;
   data: number[];
   backgroundColor: string;

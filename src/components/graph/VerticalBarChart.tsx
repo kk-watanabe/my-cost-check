@@ -13,7 +13,7 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-type VerticalBarChartDataProps = {
+export type VerticalBarChartDataProps = {
   label: string;
   data: number[];
   backgroundColor: string;

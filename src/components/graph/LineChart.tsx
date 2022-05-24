@@ -15,7 +15,7 @@ import { Line } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-type LineChartDataProps = {
+export type LineChartDataProps = {
   label: string;
   data: number[];
   backgroundColor: string;
