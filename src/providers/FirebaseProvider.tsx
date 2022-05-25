@@ -46,7 +46,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 auth.setPersistence(browserLocalPersistence);
 
-const firestore = getFirestore(app);
+export const firestore = getFirestore(app);
 
 export const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   const getQuerySnapshot = async (path: string, ...queryConstraints: QueryConstraint[]) => {
