@@ -1,27 +1,11 @@
 import React from "react";
 
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, ChartEvent, ActiveElement } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-export type StackedBarChartDataProps = {
-  label: string;
-  data: number[];
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth?: number;
-};
-
-type StackedBarChartProps = {
-  data: {
-    labels: string[];
-    datasets: StackedBarChartDataProps[];
-  };
-  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: ChartData) => void;
-};
-
-const StackedBarChart = (props: StackedBarChartProps) => {
+const StackedBarChart = (props: TotalChartProps) => {
   return (
     <Bar
       data={props.data}
@@ -35,7 +19,7 @@ const StackedBarChart = (props: StackedBarChartProps) => {
             stacked: true,
           },
         },
-        onClick: (event, elements, chart) => {
+        onClick: (event, elements) => {
           if (elements.length > 0) {
             const { datasetIndex, index } = elements[0];
             const { data } = props;
@@ -45,7 +29,7 @@ const StackedBarChart = (props: StackedBarChartProps) => {
               label: data.labels[index],
               amount: data.datasets[datasetIndex].data[index],
             };
-            props.onClick(event, elements, chart, result);
+            props.onClick(result);
           }
         },
       }}

@@ -3,20 +3,18 @@ import { FC, useState, useEffect } from "react";
 // import { useFirebaseContext } from "@/providers/FirebaseProvider";
 // import { useUserContext } from "@/providers/UserProvider";
 // import { buildUserInfo, buildCosts } from "@/utils/type-utils";
+import { buildTotalCharts } from "@/utils/type-utils";
 
 import { useNavigate } from "@tanstack/react-location";
 
-import { Chart as ChartJS, ActiveElement, ChartEvent } from "chart.js";
 import styled from "styled-components";
 import tw from "twin.macro";
-
-import { graphBgColors, graphBorderColors } from "@/const/color";
 
 import Title from "@/components/elements/Title";
 import Card from "@/components/elements/Card";
 
-import LineChart, { LineChartDataProps } from "@/components/graph/LineChart";
-import StackedBarChart, { StackedBarChartDataProps } from "@/components/graph/StackedBarChart";
+import LineChart from "@/components/graph/LineChart";
+import StackedBarChart from "@/components/graph/StackedBarChart";
 
 const HomeContainer = styled.div`
   ${tw`
@@ -56,6 +54,99 @@ const CardGraph = styled.div`
   `};
 `;
 
+const dummyCosts: Cost[] = [
+  {
+    id: "credit-card-a",
+    name: "クレジットカードA",
+    dates: [
+      {
+        label: "2020/08",
+        amount: 12300,
+      },
+      {
+        label: "2020/09",
+        amount: 23300,
+      },
+      {
+        label: "2020/10",
+        amount: 10000,
+      },
+      {
+        label: "2020/11",
+        amount: 8300,
+      },
+      {
+        label: "2020/12",
+        amount: 15700,
+      },
+      {
+        label: "2021/01",
+        amount: 19000,
+      },
+    ],
+  },
+  {
+    id: "credit-card-b",
+    name: "クレジットカードB",
+    dates: [
+      {
+        label: "2020/08",
+        amount: 10000,
+      },
+      {
+        label: "2020/09",
+        amount: 13300,
+      },
+      {
+        label: "2020/10",
+        amount: 4000,
+      },
+      {
+        label: "2020/11",
+        amount: 6300,
+      },
+      {
+        label: "2020/12",
+        amount: 4700,
+      },
+      {
+        label: "2021/01",
+        amount: 9000,
+      },
+    ],
+  },
+  {
+    id: "credit-card-c",
+    name: "クレジットカードC",
+    dates: [
+      {
+        label: "2020/08",
+        amount: 1500,
+      },
+      {
+        label: "2020/09",
+        amount: 1300,
+      },
+      {
+        label: "2020/10",
+        amount: 3000,
+      },
+      {
+        label: "2020/11",
+        amount: 3300,
+      },
+      {
+        label: "2020/12",
+        amount: 2700,
+      },
+      {
+        label: "2021/01",
+        amount: 4500,
+      },
+    ],
+  },
+];
+
 const Home: FC = () => {
   // const { getQuerySnapshot, getDocumentSnapshot } = useFirebaseContext();
   // const { uid } = useUserContext();
@@ -66,27 +157,28 @@ const Home: FC = () => {
 
   const navigate = useNavigate();
   const [labels, setLabels] = useState<string[]>([]);
-  const [lineDatasets, setLineDatasets] = useState<LineChartDataProps[]>([]);
+  const [lineDatasets, setLineDatasets] = useState<TotalChart[]>([]);
   const lineData = {
     labels,
     datasets: lineDatasets,
   };
-  const [stackedBarDatasets, setStackedBarDatasets] = useState<StackedBarChartDataProps[]>([]);
+  const [stackedBarDatasets, setStackedBarDatasets] = useState<TotalChart[]>([]);
   const stackedBarData = {
     labels,
     datasets: stackedBarDatasets,
   };
+  const [costs, setCosts] = useState<Cost[]>([]);
+  // const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
 
-  const handleGraphClick = (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: CostDate) => {
-    console.log(event, elements, chart, data);
-    navigate({ to: `${data.label}` });
+  const handleGraphClick = (data: ChartData) => {
+    navigate({ to: `${costs[data.datasetIndex].id}` });
   };
 
   // const fetch = useCallback(async () => {
   //   const userResult = getDocumentSnapshot(usersPath);
 
   //   if ((await userResult).exists()) {
-  //     const userInfo = buildUserInfo((await userResult).data() as UserDocuments);
+  //     const userInfo = buildUserInfo(userResult);
   //     console.log(userInfo);
 
   //     const costsResult = getQuerySnapshot(costsPath);
@@ -96,41 +188,20 @@ const Home: FC = () => {
   // }, [getDocumentSnapshot, usersPath, getQuerySnapshot, costsPath]);
 
   useEffect(() => {
-    setLabels(["2020/08", "2020/09", "2020/10", "2020/11", "2020/12", "2021/01"]);
-    setLineDatasets([
-      {
-        label: "○○カードA",
-        data: [12300, 23300, 10000, 8300, 15700, 19000],
-        backgroundColor: graphBgColors[0],
-        borderColor: graphBorderColors[0],
-      },
-      {
-        label: "○○カードB",
-        data: [2300, 3300, 1000, 800, 5700, 1400],
-        backgroundColor: graphBgColors[4],
-        borderColor: graphBorderColors[4],
-      },
-    ]);
-    setStackedBarDatasets([
-      {
-        label: "○○カードA",
-        data: [12300, 23300, 10000, 8300, 15700, 19000],
-        backgroundColor: graphBgColors[0],
-        borderColor: graphBorderColors[0],
-      },
-      {
-        label: "○○カードB",
-        data: [10000, 13300, 4000, 6300, 4700, 9000],
-        backgroundColor: graphBgColors[3],
-        borderColor: graphBorderColors[3],
-      },
-      {
-        label: "○○カードC",
-        data: [1500, 1300, 3000, 3300, 2700, 4500],
-        backgroundColor: graphBgColors[4],
-        borderColor: graphBorderColors[4],
-      },
-    ]);
+    const result = dummyCosts;
+    setCosts(result);
+
+    const labels = result[0].dates.map((date) => date.label);
+    setLabels(labels);
+
+    const totalCosts = buildTotalCharts(result);
+    setLineDatasets(totalCosts);
+    setStackedBarDatasets(totalCosts);
+    // setUserInfos([
+    //   {
+    //     id:
+    //   }
+    // ]);
   }, []);
 
   return (
