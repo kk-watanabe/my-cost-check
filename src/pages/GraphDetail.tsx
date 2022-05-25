@@ -5,7 +5,12 @@ import { useNavigate, useLocation } from "@tanstack/react-location";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-import { graphBgColors, graphBorderColors, ColorType } from "@/const/color";
+import { useUserContext } from "@/providers/UserProvider";
+import { useFetchCostsWithSWR } from "@/hooks/swr-hooks";
+
+import { ColorType } from "@/const/color";
+
+import Loading from "@/components/common/Loading";
 
 import Button from "@/components/elements/Button";
 import Title from "@/components/elements/Title";
@@ -14,7 +19,7 @@ import Table from "@/components/elements/Table";
 
 import VerticalBarChart, { VerticalBarChartData } from "@/components/graph/VerticalBarChart";
 
-import { getColorType } from "@/utils/color-utils";
+import { getColorType, getBgColoos, getBorderColoos } from "@/utils/color-utils";
 
 const DetailContainer = styled.div`
   ${tw`
@@ -38,104 +43,15 @@ const DetailButton = styled(Button)`
   `}
 `;
 
-const dummyCosts: Cost[] = [
-  {
-    id: "credit-card-a",
-    name: "クレジットカードA",
-    dates: [
-      {
-        label: "2020/08",
-        amount: 12300,
-      },
-      {
-        label: "2020/09",
-        amount: 23300,
-      },
-      {
-        label: "2020/10",
-        amount: 10000,
-      },
-      {
-        label: "2020/11",
-        amount: 8300,
-      },
-      {
-        label: "2020/12",
-        amount: 15700,
-      },
-      {
-        label: "2021/01",
-        amount: 19000,
-      },
-    ],
-  },
-  {
-    id: "credit-card-b",
-    name: "クレジットカードB",
-    dates: [
-      {
-        label: "2020/08",
-        amount: 10000,
-      },
-      {
-        label: "2020/09",
-        amount: 13300,
-      },
-      {
-        label: "2020/10",
-        amount: 4000,
-      },
-      {
-        label: "2020/11",
-        amount: 6300,
-      },
-      {
-        label: "2020/12",
-        amount: 4700,
-      },
-      {
-        label: "2021/01",
-        amount: 9000,
-      },
-    ],
-  },
-  {
-    id: "credit-card-c",
-    name: "クレジットカードC",
-    dates: [
-      {
-        label: "2020/08",
-        amount: 1500,
-      },
-      {
-        label: "2020/09",
-        amount: 1300,
-      },
-      {
-        label: "2020/10",
-        amount: 3000,
-      },
-      {
-        label: "2020/11",
-        amount: 3300,
-      },
-      {
-        label: "2020/12",
-        amount: 2700,
-      },
-      {
-        label: "2021/01",
-        amount: 4500,
-      },
-    ],
-  },
-];
-
 const GraphDetail = () => {
+  const { uid } = useUserContext();
+  const costsUrl = `users/${uid}/costs`;
+  const { costs, isLoading } = useFetchCostsWithSWR(costsUrl);
+
   const navigate = useNavigate();
   const location = useLocation();
-  const pageId = location.current.pathname.replace("/", "");
 
+  const [cost, setCost] = useState<Cost | null>(null);
   const [labels, setLabels] = useState<string[]>([]);
   const [datasets, setDatasets] = useState<VerticalBarChartData[]>([]);
   const data = {
@@ -152,47 +68,58 @@ const GraphDetail = () => {
   };
 
   useEffect(() => {
-    const result = dummyCosts;
-    const findResult = result.find((r) => r.id === pageId) as Cost;
-    const findIndex = result.findIndex((r) => r.id === pageId);
+    if (costs.length > 0) {
+      const bgColors = getBgColoos(costs);
+      const borderColors = getBorderColoos(costs);
 
-    setColorType(getColorType(findIndex));
+      const pageId = location.current.pathname.replace("/graph/", "");
+      const findResult = costs.find((cost) => cost.id === pageId) as Cost;
+      setCost(findResult);
 
-    const labels = findResult.dates.map((date) => date.label);
-    setLabels(labels);
-    setTableHeadData(["", ...labels]);
+      const findIndex = costs.findIndex((cost) => cost.id === pageId);
 
-    const amounts = findResult.dates.map((date) => date.amount);
-    setDatasets([
-      {
-        label: findResult.name,
-        data: amounts,
-        backgroundColor: graphBgColors[findIndex],
-        borderColor: graphBorderColors[findIndex],
-        borderWidth: 1,
-      },
-    ]);
-    const tableBodyDataCells = [findResult.name, ...amounts.map((d) => d.toLocaleString())];
-    setTableBodyData([tableBodyDataCells]);
-  }, [pageId]);
+      setColorType(getColorType(bgColors[findIndex]));
 
-  return (
-    <DetailContainer>
-      <Title text="クレジットカードAの1年間のデータ" level={1} color={colorType} />
+      const labels = findResult.dates.map((date) => date.label);
+      setLabels(labels);
+      setTableHeadData(["", ...labels]);
 
-      <DetailBody>
-        <Card>
-          <VerticalBarChart data={data} />
-        </Card>
-      </DetailBody>
+      const amounts = findResult.dates.map((date) => date.amount);
+      setDatasets([
+        {
+          label: findResult.name,
+          data: amounts,
+          backgroundColor: bgColors[findIndex],
+          borderColor: borderColors[findIndex],
+          borderWidth: 1,
+        },
+      ]);
+      const tableBodyDataCells = [findResult.name, ...amounts.map((d) => d.toLocaleString())];
+      setTableBodyData([tableBodyDataCells]);
+    }
+  }, [costs, location]);
 
-      <DetailBody>
-        <Table headColor={colorType} headData={tableHeadData} bodyData={tableBodyData} />
-      </DetailBody>
+  if (isLoading && cost === null) {
+    return <Loading />;
+  } else {
+    return (
+      <DetailContainer>
+        <Title text={`${cost?.name}の1年間のデータ`} level={1} color={colorType} />
 
-      <DetailButton label="TOPに戻る" color="normal" onClick={handleClick} />
-    </DetailContainer>
-  );
+        <DetailBody>
+          <Card>
+            <VerticalBarChart data={data} />
+          </Card>
+        </DetailBody>
+
+        <DetailBody>
+          <Table headColor={colorType} headData={tableHeadData} bodyData={tableBodyData} />
+        </DetailBody>
+
+        <DetailButton label="TOPに戻る" color="normal" onClick={handleClick} />
+      </DetailContainer>
+    );
+  }
 };
 
 export default GraphDetail;
