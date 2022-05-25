@@ -13,7 +13,7 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-export type VerticalBarChartDataProps = {
+export type VerticalBarChartData = {
   label: string;
   data: number[];
   backgroundColor: string;
@@ -24,9 +24,9 @@ export type VerticalBarChartDataProps = {
 type VerticalBarChartProps = {
   data: {
     labels: string[];
-    datasets: VerticalBarChartDataProps[];
+    datasets: VerticalBarChartData[];
   };
-  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: ChartData) => void;
+  onClick?: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: ChartData) => void;
 };
 
 const VerticalBarChart = (props: VerticalBarChartProps) => {
@@ -39,7 +39,7 @@ const VerticalBarChart = (props: VerticalBarChartProps) => {
       options={{
         responsive: true,
         onClick: (event, elements, chart) => {
-          if (elements.length > 0) {
+          if (elements.length > 0 && props.onClick) {
             const { datasetIndex, index } = elements[0];
             const { data } = props;
             const result: ChartData = {
