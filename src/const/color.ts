@@ -29,3 +29,14 @@ export const graphBorderColors = [
   theme`colors.blue.600`,
   theme`colors.purple.600`,
 ];
+
+export const ColorType = {
+  RED: "red",
+  ORANGE: "orange",
+  YELLOW: "yellow",
+  GREEN: "green",
+  BLUE: "blue",
+  PURPLE: "purple",
+} as const;
+
+export type ColorType = typeof ColorType[keyof typeof ColorType];

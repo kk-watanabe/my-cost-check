@@ -3,13 +3,13 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-type TitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
+import { ColorType } from "@/const/color";
 
-type TitleColor = "red" | "orange" | "yellow" | "green" | "blue" | "purple";
+type TitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface TitleProps {
   text: string;
-  color?: TitleColor;
+  color?: ColorType;
   level?: TitleLevel;
 }
 
@@ -24,17 +24,17 @@ const TitleBase = styled.div.attrs((props: TitleProps) => {
     if (color === "red") {
       result.push("text-red-600");
     } else if (color === "orange") {
-      result.push("text-orange-600");
+      result.push("text-orange-500");
     } else if (color === "yellow") {
-      result.push("text-yellow-600");
+      result.push("text-yellow-500");
     } else if (color === "green") {
-      result.push("text-green-600");
+      result.push("text-green-500");
     } else if (color === "blue") {
-      result.push("text-sky-600");
+      result.push("text-sky-500");
     } else if (color === "purple") {
-      result.push("text-purple-700");
+      result.push("text-purple-500");
     } else {
-      result.push("text-sky-600");
+      result.push("text-sky-500");
     }
   } else if (level === 2) {
     result.push("text-3xl");
@@ -130,19 +130,19 @@ const TitleBase = styled.div.attrs((props: TitleProps) => {
     result.push("text-4xl");
 
     if (color === "red") {
-      result.push("text-red-600");
+      result.push("text-red-500");
     } else if (color === "orange") {
-      result.push("text-orange-600");
+      result.push("text-orange-500");
     } else if (color === "yellow") {
-      result.push("text-yellow-600");
+      result.push("text-yellow-500");
     } else if (color === "green") {
-      result.push("text-green-600");
+      result.push("text-green-500");
     } else if (color === "blue") {
-      result.push("text-sky-600");
+      result.push("text-sky-500");
     } else if (color === "purple") {
-      result.push("text-purple-700");
+      result.push("text-purple-500");
     } else {
-      result.push("text-sky-600");
+      result.push("text-sky-500");
     }
   }
 

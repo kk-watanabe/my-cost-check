@@ -3,12 +3,12 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-type TableHeadColor = "red" | "orange" | "yellow" | "green" | "blue" | "purple";
+import { ColorType } from "@/const/color";
 
 type TableCell = number | string;
 
 export interface TableProps {
-  headColor?: TableHeadColor;
+  headColor?: ColorType;
   headData: string[];
   bodyData: TableCell[][];
 }
@@ -23,6 +23,7 @@ const TableOverContainer = styled.div`
 
 const TableBase = styled.table`
   ${tw`
+    w-full
     bg-white
     table-auto
     whitespace-nowrap
