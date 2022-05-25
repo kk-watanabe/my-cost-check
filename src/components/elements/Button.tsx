@@ -5,7 +5,7 @@ import tw from "twin.macro";
 
 type ButtonSize = "small" | "medium" | "large";
 
-type ButtonColor = "primary" | "secondary" | "error" | "warning";
+type ButtonColor = "primary" | "secondary" | "error" | "warning" | "normal";
 
 export interface ButtonProps {
   label: string;
@@ -68,6 +68,8 @@ const ButtonBase = styled.button.attrs((props: ButtonProps) => {
     result.push("bg-red-600", "hover:bg-red-500", "border-red-600", "hover:border-red-500", "text-white");
   } else if (color === "warning") {
     result.push("bg-amber-500", "hover:bg-amber-400", "border-amber-500", "hover:border-amber-400", "text-white");
+  } else if (color === "normal") {
+    result.push("bg-white", "hover:bg-slate-200", "border-slate-500", "text-slate-700");
   } else {
     result.push("bg-sky-500", "hover:bg-sky-400", "border-sky-500", "hover:border-sky-400", "text-white");
   }
@@ -76,7 +78,7 @@ const ButtonBase = styled.button.attrs((props: ButtonProps) => {
   if (isDisabled) {
     result.push("pointer-events-none");
   } else {
-    result.push("font-bold", "transition");
+    result.push("transition");
   }
 
   return {

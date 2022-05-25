@@ -5,6 +5,7 @@ type UserDocuments = {
 };
 
 type UserInfo = {
+  id: string;
   email: string;
   isAdmin: boolean;
   name: string;
@@ -23,4 +24,26 @@ type Cost = {
 
 type ClassProps = {
   className: string;
+};
+
+type ChartData = {
+  datasetIndex: number;
+  title: string;
+  amount: number;
+  label: string;
+};
+
+type TotalChart = {
+  label: string;
+  data: number[];
+  backgroundColor: string;
+  borderColor: string;
+};
+
+type TotalChartProps = {
+  data: {
+    labels: string[];
+    datasets: TotalChart[];
+  };
+  onClick: (data: ChartData) => void;
 };

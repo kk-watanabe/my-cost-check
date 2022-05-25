@@ -3,12 +3,12 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-type TableHeadColor = "red" | "orange" | "yellow" | "green" | "blue" | "purple";
+import { ColorType } from "@/const/color";
 
 type TableCell = number | string;
 
 export interface TableProps {
-  headColor?: TableHeadColor;
+  headColor?: ColorType;
   headData: string[];
   bodyData: TableCell[][];
 }
@@ -23,6 +23,7 @@ const TableOverContainer = styled.div`
 
 const TableBase = styled.table`
   ${tw`
+    w-full
     bg-white
     table-auto
     whitespace-nowrap
@@ -89,6 +90,21 @@ const Td = styled.td`
   `}
 `;
 
+export interface TableCellProps {
+  value: TableCell;
+  index: number;
+}
+
+const TableCell = (props: TableCellProps) => {
+  const { value, index } = props;
+
+  if (index === 0) {
+    return <BodyTh>{value}</BodyTh>;
+  } else {
+    return <Td>{value}</Td>;
+  }
+};
+
 const Table = (props: TableProps) => {
   const { headData, bodyData } = props;
 
@@ -106,15 +122,9 @@ const Table = (props: TableProps) => {
         </thead>
         <tbody>
           {bodyData.map((value, index) => (
-            <tr key={index}>
-              {value.map((data, i) => (
-                <>
-                  {i === 0 ? (
-                    <BodyTh key={`row${index}-cell${i}`}>{data}</BodyTh>
-                  ) : (
-                    <Td key={`row${index}-cell${i}`}>{data}</Td>
-                  )}
-                </>
+            <tr key={`row${index}`}>
+              {value.map((data, i: number) => (
+                <TableCell value={data} index={i} key={`row${index}-cell${i}`} />
               ))}
             </tr>
           ))}

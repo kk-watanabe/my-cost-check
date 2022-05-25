@@ -1,5 +1,4 @@
 import React from "react";
-// import tw from "tailwind-styled-components";
 
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -7,17 +6,18 @@ import tw from "twin.macro";
 const HeaderContainer = styled.header`
   ${tw`
     h-12
-    px-4
+    px-6
     bg-white
     flex
     items-center
     justify-between
+    shadow-sm
   `}
 `;
 
 const LogoDiv = styled.div.attrs({
   // TODO: text-sky-500 が読み込まれないため、classNameで追加している
-  className: "text-sky-500",
+  className: "text-slate-700",
 })`
   ${tw`
     text-2xl

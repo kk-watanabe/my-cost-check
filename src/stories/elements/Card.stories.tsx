@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Card from "@/components/elements/Card";
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
   title: "components/elements/Card",
   component: Card,

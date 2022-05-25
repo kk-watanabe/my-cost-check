@@ -9,7 +9,7 @@ export default {
   component: Button,
   argTypes: {
     color: {
-      options: ["primary", "secondary", "error", "warning"],
+      options: ["primary", "secondary", "error", "warning", "normal"],
       control: { type: "radio" },
     },
     size: {
