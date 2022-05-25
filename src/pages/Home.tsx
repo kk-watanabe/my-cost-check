@@ -1,14 +1,15 @@
 import { FC, useState, useEffect } from "react";
-// import { FC, useCallback, useEffect } from "react";
-// import { useFirebaseContext } from "@/providers/FirebaseProvider";
-// import { useUserContext } from "@/providers/UserProvider";
-// import { buildUserInfo, buildCosts } from "@/utils/type-utils";
-import { buildTotalCharts } from "@/utils/type-utils";
 
 import { useNavigate } from "@tanstack/react-location";
 
+import { useUserContext } from "@/providers/UserProvider";
+import { buildTotalCharts } from "@/utils/type-utils";
+import { useFetchCostsWithSWR } from "@/hooks/swr-hooks";
+
 import styled from "styled-components";
 import tw from "twin.macro";
+
+import Loading from "@/components/common/Loading";
 
 import Title from "@/components/elements/Title";
 import Card from "@/components/elements/Card";
@@ -54,106 +55,10 @@ const CardGraph = styled.div`
   `};
 `;
 
-const dummyCosts: Cost[] = [
-  {
-    id: "credit-card-a",
-    name: "クレジットカードA",
-    dates: [
-      {
-        label: "2020/08",
-        amount: 12300,
-      },
-      {
-        label: "2020/09",
-        amount: 23300,
-      },
-      {
-        label: "2020/10",
-        amount: 10000,
-      },
-      {
-        label: "2020/11",
-        amount: 8300,
-      },
-      {
-        label: "2020/12",
-        amount: 15700,
-      },
-      {
-        label: "2021/01",
-        amount: 19000,
-      },
-    ],
-  },
-  {
-    id: "credit-card-b",
-    name: "クレジットカードB",
-    dates: [
-      {
-        label: "2020/08",
-        amount: 10000,
-      },
-      {
-        label: "2020/09",
-        amount: 13300,
-      },
-      {
-        label: "2020/10",
-        amount: 4000,
-      },
-      {
-        label: "2020/11",
-        amount: 6300,
-      },
-      {
-        label: "2020/12",
-        amount: 4700,
-      },
-      {
-        label: "2021/01",
-        amount: 9000,
-      },
-    ],
-  },
-  {
-    id: "credit-card-c",
-    name: "クレジットカードC",
-    dates: [
-      {
-        label: "2020/08",
-        amount: 1500,
-      },
-      {
-        label: "2020/09",
-        amount: 1300,
-      },
-      {
-        label: "2020/10",
-        amount: 3000,
-      },
-      {
-        label: "2020/11",
-        amount: 3300,
-      },
-      {
-        label: "2020/12",
-        amount: 2700,
-      },
-      {
-        label: "2021/01",
-        amount: 4500,
-      },
-    ],
-  },
-];
-
 const Home: FC = () => {
-  // const { getQuerySnapshot, getDocumentSnapshot } = useFirebaseContext();
-  // const { uid } = useUserContext();
-  // const usersCollectionName = "users";
-  // const usersPath = `${usersCollectionName}/${uid}`;
-  // const costsCollectionName = "costs";
-  // const costsPath = `${usersPath}/${costsCollectionName}`;
+  const { uid } = useUserContext();
+  const costsUrl = `users/${uid}/costs`;
+  const { costs, isLoading } = useFetchCostsWithSWR(costsUrl);
 
   const navigate = useNavigate();
   const [labels, setLabels] = useState<string[]>([]);
@@ -167,42 +72,23 @@ const Home: FC = () => {
     labels,
     datasets: stackedBarDatasets,
   };
-  const [costs, setCosts] = useState<Cost[]>([]);
-  // const [userInfos, setUserInfos] = useState<UserInfo[]>([]);
 
   const handleGraphClick = (data: ChartData) => {
-    navigate({ to: `${costs[data.datasetIndex].id}` });
+    navigate({ to: `/graph/${costs[data.datasetIndex].id}` });
   };
 
-  // const fetch = useCallback(async () => {
-  //   const userResult = getDocumentSnapshot(usersPath);
-
-  //   if ((await userResult).exists()) {
-  //     const userInfo = buildUserInfo(userResult);
-  //     console.log(userInfo);
-
-  //     const costsResult = getQuerySnapshot(costsPath);
-  //     const costs = await (await costsResult).docs.map(buildCosts);
-  //     console.log(costs);
-  //   }
-  // }, [getDocumentSnapshot, usersPath, getQuerySnapshot, costsPath]);
-
   useEffect(() => {
-    const result = dummyCosts;
-    setCosts(result);
+    if (costs.length > 0) {
+      const labels = costs[0].dates.map((date) => date.label);
+      setLabels(labels);
 
-    const labels = result[0].dates.map((date) => date.label);
-    setLabels(labels);
+      const totalCosts = buildTotalCharts(costs);
+      setLineDatasets(totalCosts);
+      setStackedBarDatasets(totalCosts);
+    }
+  }, [costs]);
 
-    const totalCosts = buildTotalCharts(result);
-    setLineDatasets(totalCosts);
-    setStackedBarDatasets(totalCosts);
-    // setUserInfos([
-    //   {
-    //     id:
-    //   }
-    // ]);
-  }, []);
+  if (isLoading) return <Loading />;
 
   return (
     <>

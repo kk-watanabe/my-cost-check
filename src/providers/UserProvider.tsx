@@ -34,7 +34,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       setErrorMessage("");
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          console.log(userCredential.user.uid);
           setUid(userCredential.user.uid);
         })
         .catch((error) => {

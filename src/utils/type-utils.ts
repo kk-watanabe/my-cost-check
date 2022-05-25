@@ -1,5 +1,5 @@
 import { DocumentData } from "firebase/firestore";
-import { graphBgColors, graphBorderColors } from "@/const/color";
+import { getBorderColoos, getBgColoos } from "@/utils/color-utils";
 
 /**
  * UserInfo type を作成する
@@ -26,7 +26,7 @@ export const buildCosts = (doc: DocumentData) => {
   const data = doc.data();
 
   return {
-    id: doc.id,
+    id: data.id,
     name: data.name,
     dates: data.dates,
   } as Cost;
@@ -57,22 +57,8 @@ export const buildTotalChart = (value: Cost, backgroundColor: string, borderColo
  * @returns
  */
 export const buildTotalCharts = (value: Cost[]) => {
-  const bgColors: string[] = [];
-  const borderColors: string[] = [];
-
-  if (value.length === 2) {
-    bgColors.push(graphBgColors[0], graphBgColors[4]);
-    borderColors.push(graphBorderColors[0], graphBorderColors[4]);
-  } else if (value.length === 3) {
-    bgColors.push(graphBgColors[0], graphBgColors[3], graphBgColors[4]);
-    borderColors.push(graphBorderColors[0], graphBorderColors[3], graphBorderColors[4]);
-  } else if (value.length === 4) {
-    bgColors.push(graphBgColors[0], graphBgColors[2], graphBgColors[3], graphBgColors[4]);
-    borderColors.push(graphBorderColors[0], graphBorderColors[2], graphBorderColors[3], graphBorderColors[4]);
-  } else {
-    bgColors.push(...graphBgColors);
-    borderColors.push(...graphBorderColors);
-  }
+  const bgColors: string[] = getBgColoos(value);
+  const borderColors: string[] = getBorderColoos(value);
 
   return value.map((cost, index) => buildTotalChart(cost, bgColors[index], borderColors[index]));
 };
