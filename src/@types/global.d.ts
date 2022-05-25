@@ -24,3 +24,10 @@ type Cost = {
 type ClassProps = {
   className: string;
 };
+
+type ChartData = {
+  datasetIndex: number;
+  title: string;
+  amount: number;
+  label: string;
+};

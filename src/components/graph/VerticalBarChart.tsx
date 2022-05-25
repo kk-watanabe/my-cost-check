@@ -26,7 +26,7 @@ type VerticalBarChartProps = {
     labels: string[];
     datasets: VerticalBarChartDataProps[];
   };
-  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: CostDate) => void;
+  onClick: (event: ChartEvent, elements: ActiveElement[], chart: ChartJS, data: ChartData) => void;
 };
 
 const VerticalBarChart = (props: VerticalBarChartProps) => {
@@ -41,11 +41,14 @@ const VerticalBarChart = (props: VerticalBarChartProps) => {
         onClick: (event, elements, chart) => {
           if (elements.length > 0) {
             const { datasetIndex, index } = elements[0];
-            const data: CostDate = {
-              label: props.data.labels[index],
-              amount: props.data.datasets[datasetIndex].data[index],
+            const { data } = props;
+            const result: ChartData = {
+              datasetIndex,
+              title: data.datasets[datasetIndex].label,
+              label: data.labels[index],
+              amount: data.datasets[datasetIndex].data[index],
             };
-            props.onClick(event, elements, chart, data);
+            props.onClick(event, elements, chart, result);
           }
         },
       }}
