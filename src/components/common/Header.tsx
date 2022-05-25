@@ -17,7 +17,7 @@ const HeaderContainer = styled.header`
 
 const LogoDiv = styled.div.attrs({
   // TODO: text-sky-500 が読み込まれないため、classNameで追加している
-  className: "text-sky-500",
+  className: "text-slate-700",
 })`
   ${tw`
     text-2xl
