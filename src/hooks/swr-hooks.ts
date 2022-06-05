@@ -4,7 +4,8 @@ import { firestore } from "@/providers/FirebaseProvider";
 import { buildCosts } from "@/utils/type-utils";
 
 const useFetcher = async (url: string) => {
-  const costsResult = await getDocs(query(collection(firestore, url)));
+  console.log(firestore, url);
+  const costsResult = await getDocs(query(collection(firestore, "users")));
 
   return costsResult.docs.map(buildCosts);
 };
