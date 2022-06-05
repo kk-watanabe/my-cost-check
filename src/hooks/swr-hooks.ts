@@ -4,8 +4,7 @@ import { firestore } from "@/providers/FirebaseProvider";
 import { buildCosts } from "@/utils/type-utils";
 
 const useFetcher = async (url: string) => {
-  console.log(firestore, url);
-  const costsResult = await getDocs(query(collection(firestore, "users")));
+  const costsResult = await getDocs(query(collection(firestore, url)));
 
   return costsResult.docs.map(buildCosts);
 };
@@ -15,7 +14,6 @@ const useFetcher = async (url: string) => {
  * @returns
  */
 export const useFetchCostsWithSWR = (url: string) => {
-  console.log(url);
   const {
     data,
     error,
@@ -25,7 +23,6 @@ export const useFetchCostsWithSWR = (url: string) => {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
-  console.log(data);
   const costs = data === undefined ? [] : data;
   const isLoading = !error && !data;
   const isError = error;
