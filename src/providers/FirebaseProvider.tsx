@@ -37,7 +37,6 @@ export const firestore = getFirestore(app);
 
 export const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   const value = { analytics, auth };
-  console.log(value);
 
   return <FirebaseContext.Provider value={value}>{children}</FirebaseContext.Provider>;
 };
