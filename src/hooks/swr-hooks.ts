@@ -14,6 +14,7 @@ const useFetcher = async (url: string) => {
  * @returns
  */
 export const useFetchCostsWithSWR = (url: string) => {
+  console.log(url);
   const {
     data,
     error,
@@ -23,6 +24,7 @@ export const useFetchCostsWithSWR = (url: string) => {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
+  console.log(data);
   const costs = data === undefined ? [] : data;
   const isLoading = !error && !data;
   const isError = error;
